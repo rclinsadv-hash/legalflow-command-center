@@ -3,394 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legalflow | Command Center</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Legalflow | Central de Comando</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* DESIGN PREMIUM GLASSMORFISM */
+        :root {
+            --bg: #06060f; --surface: #0d0d1e; --surface2: #12122a;
+            --border: rgba(139,92,246,0.15); --accent: #7c3aed; --text: #e2e8f0;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        .sidebar { width: 260px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; }
+        .nav-btn { padding: 12px; margin: 4px 0; border-radius: 8px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; color: #94a3b8; }
+        .nav-btn.active { background: rgba(124,58,237,0.1); color: #fff; border: 1px solid var(--border); }
+        .content { flex: 1; padding: 30px; overflow-y: auto; }
+        .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+        .view { display: none; }
+        .view.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        textarea, input { background: var(--surface2); border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 8px; width: 100%; box-sizing: border-box; }
+        button { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="logo">
-                <div class="logo-text">Legalflow</div>
-                <div class="logo-sub">Command Center Jurídico</div>
-            </div>
-
-            <div class="nav-section" style="padding: 16px 12px 8px; font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--text3);">Principal</div>
-            <button class="nav-btn active" onclick="showView('dashboard', this)">
-                <i class="fas fa-th-large"></i> Dashboard
-            </button>
-            <button class="nav-btn" onclick="showView('intimacoes', this)">
-                <i class="fas fa-bell"></i> Intimações
-                <span class="badge" id="badge-int" style="margin-left: auto; background: var(--red); color: #fff; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px;">0</span>
-            </button>
-            <button class="nav-btn" onclick="showView('agenda', this)">
-                <i class="fas fa-calendar-alt"></i> Agenda & Prazos
-            </button>
-
-            <div class="nav-section" style="padding: 16px 12px 8px; font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--text3);">Gestão</div>
-            <button class="nav-btn" onclick="showView('processos', this)">
-                <i class="fas fa-balance-scale"></i> Processos & Casos
-            </button>
-            <button class="nav-btn" onclick="showView('clientes', this)">
-                <i class="fas fa-user-friends"></i> Clientes & CRM
-            </button>
-            <button class="nav-btn" onclick="showView('financeiro', this)">
-                <i class="fas fa-wallet"></i> Financeiro
-            </button>
-
-            <div class="nav-section" style="padding: 16px 12px 8px; font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--text3);">Ferramentas</div>
-            <button class="nav-btn" onclick="showView('whatsapp', this)">
-                <i class="fab fa-whatsapp"></i> WhatsApp
-                <span class="badge" id="badge-wpp" style="margin-left: auto; background: #25D366; color: #fff; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px;">0</span>
-            </button>
-            <button class="nav-btn" onclick="showView('jurisprudencia', this)">
-                <i class="fas fa-book"></i> Jurisprudência
-            </button>
-            <button class="nav-btn" onclick="showView('documentos', this)">
-                <i class="fas fa-file-signature"></i> Documentos
-            </button>
-            <button class="nav-btn" onclick="showView('ia', this)">
-                <i class="fas fa-sparkles"></i> Assistente IA
-            </button>
-
-            <div class="nav-section" style="padding: 16px 12px 8px; font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--text3);">Sistema</div>
-            <button class="nav-btn" onclick="showView('datajud', this)">
-                <i class="fas fa-sync"></i> Datajud Sync
-            </button>
-            <button class="nav-btn" onclick="showView('config', this)">
-                <i class="fas fa-cog"></i> Configurações
-            </button>
-
-            <div class="sidebar-footer" style="margin-top: auto; padding: 16px; border-top: 1px solid var(--border);">
-                <div class="user-info" style="display: flex; align-items: center; gap: 10px;">
-                    <div class="avatar" style="width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--gold)); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600;">DR</div>
-                    <div>
-                        <div class="user-name" style="font-size: 13px; font-weight: 600;">Dr. Raphael</div>
-                        <div class="user-status" style="font-size: 11px; color: var(--green);">Online</div>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- MAIN CONTENT -->
-        <main class="main-content" style="flex: 1; margin-left: var(--sidebar-w); display: flex; flex-direction: column; min-height: 100vh;">
-            <header class="top-bar">
-                <h1 id="page-title" style="font-family: 'DM Serif Display', serif; font-size: 20px;">Dashboard</h1>
-                <div class="top-actions" style="display: flex; gap: 12px; align-items: center;">
-                    <span id="current-date" style="font-size: 13px; color: var(--text3);"></span>
-                    <button class="btn-sync-quick" onclick="syncDatajud()" style="background: var(--accent); color: #fff; border: none; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600;">
-                        <i class="fas fa-sync"></i> Sincronizar
-                    </button>
-                </div>
-            </header>
-
-            <div class="content" style="padding: 28px 32px; flex: 1;">
-                
-                <!-- VIEW: DASHBOARD -->
-                <section id="view-dashboard" class="view active">
-                    <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
-                        <div class="stat-card purple" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative;">
-                            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text3);">Processos Ativos</div>
-                            <div id="stat-processos" style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--text); margin: 6px 0 4px;">0</div>
-                            <div class="stat-sub" style="font-size: 11.5px; color: var(--text3);">Monitorados via Datajud</div>
-                        </div>
-                        <div class="stat-card gold" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative;">
-                            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text3);">Prazos Críticos</div>
-                            <div id="stat-prazos" style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--text); margin: 6px 0 4px;">0</div>
-                            <div class="stat-sub" style="font-size: 11.5px; color: var(--text3);">Próximos 7 dias</div>
-                        </div>
-                        <div class="stat-card green" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative;">
-                            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text3);">Audiências</div>
-                            <div id="stat-audiencias" style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--text); margin: 6px 0 4px;">0</div>
-                            <div class="stat-sub" style="font-size: 11.5px; color: var(--text3);">Agendadas este mês</div>
-                        </div>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;">
-                            <div class="panel-header" style="padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
-                                <div style="font-size: 14px; font-weight: 600;">🔔 Intimações Recentes</div>
-                                <button onclick="showView('intimacoes')" style="background: transparent; border: 1px solid var(--border); color: var(--text2); padding: 4px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">Ver Todas</button>
-                            </div>
-                            <div id="recent-intimacoes" class="panel-body" style="padding: 16px;">
-                                <div style="text-align: center; color: var(--text3); padding: 20px;">Nenhuma intimação nova.</div>
-                            </div>
-                        </div>
-                        <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;">
-                            <div class="panel-header" style="padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
-                                <div style="font-size: 14px; font-weight: 600;">📅 Próximos Prazos</div>
-                                <button onclick="showView('agenda')" style="background: transparent; border: 1px solid var(--border); color: var(--text2); padding: 4px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">Ver Agenda</button>
-                            </div>
-                            <div id="upcoming-deadlines" class="panel-body" style="padding: 0;">
-                                <!-- Table dynamic -->
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- VIEW: INTIMAÇÕES -->
-                <section id="view-intimacoes" class="view" style="display: none;">
-                    <div style="background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(245,158,11,0.05)); border: 1px solid rgba(124,58,237,0.25); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                        <h2 style="font-family: 'DM Serif Display', serif; font-size: 18px; margin-bottom: 12px;">Entrada Rápida de Intimação</h2>
-                        <p style="font-size: 13px; color: var(--text2); margin-bottom: 16px;">Cole o texto da intimação ou Diário Oficial para análise instantânea.</p>
-                        <textarea id="email-input" style="width: 100%; height: 120px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; color: #fff; resize: none; margin-bottom: 16px;" placeholder="Cole aqui o texto..."></textarea>
-                        <button onclick="processEmail()" style="background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer;">Analisar com IA</button>
-                    </div>
-                    <div id="list-intimacoes">
-                        <!-- Items dynamicos -->
-                    </div>
-                </section>
-
-                <!-- VIEW: PROCESSOS -->
-                <section id="view-processos" class="view" style="display: none;">
-                    <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
-                        <h2 style="font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 20px;">Processos & Casos Cadastrados</h2>
-                        <div id="list-processos">
-                            <div style="text-align: center; color: var(--text3); padding: 40px;">Nenhum processo cadastrado.</div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- VIEW: CLIENTES -->
-                <section id="view-clientes" class="view" style="display: none;">
-                    <div style="display: grid; grid-template-columns: 1fr 350px; gap: 20px;">
-                        <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
-                            <h2 style="font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 20px;">Cadastro de Novo Cliente</h2>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                                <div class="form-group">
-                                    <label style="display: block; font-size: 11px; color: var(--text3); margin-bottom: 6px;">NOME COMPLETO</label>
-                                    <input type="text" id="cli-nome" class="glass-input" style="width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: #fff;">
-                                </div>
-                                <div class="form-group">
-                                    <label style="display: block; font-size: 11px; color: var(--text3); margin-bottom: 6px;">CPF / CNPJ</label>
-                                    <div style="display: flex; gap: 8px;">
-                                        <input type="text" id="cli-cpf" placeholder="000.000.000-00" class="glass-input" style="flex: 1; background: var(--surface2); border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: #fff;">
-                                        <button onclick="buscarCPF()" style="background: var(--accent); color: #fff; border: none; padding: 0 12px; border-radius: 8px; cursor: pointer;"><i class="fas fa-search"></i></button>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label style="display: block; font-size: 11px; color: var(--text3); margin-bottom: 6px;">CEP</label>
-                                    <div style="display: flex; gap: 8px;">
-                                        <input type="text" id="cli-cep" placeholder="00000-000" class="glass-input" style="flex: 1; background: var(--surface2); border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: #fff;">
-                                        <button onclick="buscarCEP()" style="background: var(--accent); color: #fff; border: none; padding: 0 12px; border-radius: 8px; cursor: pointer;"><i class="fas fa-search"></i></button>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label style="display: block; font-size: 11px; color: var(--text3); margin-bottom: 6px;">ENDEREÇO</label>
-                                    <input type="text" id="cli-endereco" class="glass-input" style="width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: #fff;">
-                                </div>
-                                <div class="form-group">
-                                    <label style="display: block; font-size: 11px; color: var(--text3); margin-bottom: 6px;">BAIRRO / CIDADE</label>
-                                    <input type="text" id="cli-bairro-cidade" class="glass-input" style="width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: #fff;">
-                                </div>
-                                <div class="form-group">
-                                    <label style="display: block; font-size: 11px; color: var(--text3); margin-bottom: 6px;">E-MAIL</label>
-                                    <input type="email" id="cli-email" class="glass-input" style="width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: #fff;">
-                                </div>
-                            </div>
-                            <button onclick="salvarCliente()" style="margin-top: 20px; width: 100%; background: var(--green); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;">Cadastrar Cliente</button>
-                        </div>
-                        <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-                            <h3 style="margin-bottom: 16px;">Clientes Cadastrados</h3>
-                            <div id="list-clientes" style="display: flex; flex-direction: column; gap: 10px;">
-                                <!-- Lista de clientes -->
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- VIEW: WHATSAPP -->
-                <section id="view-whatsapp" class="view" style="display: none;">
-                    <div style="display: grid; grid-template-columns: 280px 1fr 300px; gap: 16px; height: 600px;">
-                        <!-- Lista de Conversas -->
-                        <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column;">
-                            <div style="padding: 16px; border-bottom: 1px solid var(--border);">
-                                <input type="text" placeholder="Buscar conversas..." style="width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; color: #fff; font-size: 13px;">
-                            </div>
-                            <div id="wpp-conversas" style="flex: 1; overflow-y: auto;">
-                                <!-- Contatos -->
-                            </div>
-                        </div>
-                        <!-- Chat -->
-                        <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column;">
-                            <div id="wpp-chat-header" style="padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px;">
-                                <div style="width: 36px; height: 36px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold;">?</div>
-                                <div>
-                                    <div style="font-size: 14px; font-weight: 600;">Selecione uma conversa</div>
-                                    <div style="font-size: 11px; color: var(--text3);">Offline</div>
-                                </div>
-                            </div>
-                            <div id="wpp-messages" style="flex: 1; overflow-y: auto; padding: 16px; background: rgba(0,0,0,0.1);">
-                                <!-- Balões -->
-                            </div>
-                            <div style="padding: 12px; border-top: 1px solid var(--border); display: flex; gap: 10px;">
-                                <input type="text" placeholder="Digite uma mensagem..." style="flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: #fff;">
-                                <button style="background: var(--accent); color: #fff; border: none; padding: 0 16px; border-radius: 8px; cursor: pointer;"><i class="fas fa-paper-plane"></i></button>
-                            </div>
-                        </div>
-                        <!-- IA Context -->
-                        <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
-                            <h3 style="font-size: 14px; margin-bottom: 12px;">✦ Assistente Claude Jurídico</h3>
-                            <div id="wpp-ia-suggest" style="background: var(--surface2); border: 1px dashed var(--accent); border-radius: 8px; padding: 12px; font-size: 12.5px; color: var(--text2); line-height: 1.6; min-height: 100px;">
-                                A IA analisará o contexto da conversa para sugerir respostas jurídicas precisas.
-                            </div>
-                            <button style="width: 100%; margin-top: 12px; background: var(--accent); color: #fff; border: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Sugerir Resposta</button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- VIEW: IA CHAT -->
-                <section id="view-ia" class="view" style="display: none;">
-                    <div style="max-width: 800px; margin: 0 auto; height: 600px; display: flex; flex-direction: column;">
-                        <div class="panel" style="flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; overflow: hidden;">
-                            <div style="padding: 16px; border-bottom: 1px solid var(--border); font-weight: 600;">✦ Consultoria Jurídica IA</div>
-                            <div id="ia-chat-messages" style="flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px;">
-                                <div style="display: flex; gap: 12px;">
-                                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 12px;">✦</div>
-                                    <div style="background: var(--surface2); border: 1px solid var(--border); padding: 12px 16px; border-radius: 0 12px 12px 12px; font-size: 13.5px; max-width: 80%;">
-                                        Olá, Dr. Raphael. Sou seu assistente jurídico. Posso ajudar a analisar peças, calcular prazos ou pesquisar jurisprudência. Como posso ajudar agora?
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="padding: 16px; border-top: 1px solid var(--border); display: flex; gap: 12px;">
-                                <textarea id="ia-chat-input" placeholder="Pergunte qualquer coisa sobre seus processos..." style="flex: 1; height: 50px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: #fff; resize: none;"></textarea>
-                                <button onclick="sendChatMessage()" style="background: var(--accent); color: #fff; border: none; padding: 0 20px; border-radius: 8px; cursor: pointer;"><i class="fas fa-paper-plane"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- VIEW: FINANCEIRO -->
-                <section id="view-financeiro" class="view" style="display: none;">
-                    <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
-                        <div class="stat-card green" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-                            <div style="font-size: 11px; text-transform: uppercase; color: var(--text3);">Receita Mensal</div>
-                            <div style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--green);">R$ 28.400</div>
-                        </div>
-                        <div class="stat-card purple" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-                            <div style="font-size: 11px; text-transform: uppercase; color: var(--text3);">A Receber</div>
-                            <div style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--accent3);">R$ 12.150</div>
-                        </div>
-                    </div>
-                    <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-                        <h3 style="margin-bottom: 16px;">Faturas Recentes</h3>
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <thead><tr style="font-size: 11px; color: var(--text3); text-align: left;"><th style="padding: 10px;">Cliente</th><th>Valor</th><th>Status</th></tr></thead>
-                            <tbody style="font-size: 13px;">
-                                <tr><td style="padding: 10px;">Maria Silva</td><td>R$ 4.500,00</td><td><span style="color: var(--green)">Pago</span></td></tr>
-                                <tr><td style="padding: 10px;">Empresa ABC</td><td>R$ 8.000,00</td><td><span style="color: var(--gold)">Pendente</span></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-
-                <!-- VIEW: JURISPRUDÊNCIA -->
-                <section id="view-jurisprudencia" class="view" style="display: none;">
-                    <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
-                        <h2 style="font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 20px;">Pesquisa de Jurisprudência IA</h2>
-                        <div style="display: flex; gap: 12px; margin-bottom: 24px;">
-                            <input type="text" id="juris-input" placeholder="Ex: Dano moral atraso de voo STJ..." style="flex: 1; background: var(--surface2); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff;">
-                            <button onclick="buscarJurisprudencia()" style="background: var(--accent); color: #fff; border: none; padding: 0 24px; border-radius: 8px; font-weight: 600; cursor: pointer;">Pesquisar</button>
-                        </div>
-                        <div id="juris-results" style="min-height: 200px; color: var(--text2); font-size: 14px;">
-                            Resultados aparecerão aqui após a pesquisa.
-                        </div>
-                    </div>
-                </section>
-
-                <!-- VIEW: DOCUMENTOS -->
-                <section id="view-documentos" class="view" style="display: none;">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-                            <h3>Gerador de Documentos IA</h3>
-                            <select id="doc-type" style="width: 100%; margin: 16px 0; background: var(--surface2); border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: #fff;">
-                                <option>Procuração Ad Judicia</option>
-                                <option>Contrato de Honorários</option>
-                                <option>Petição Inicial (Esboço)</option>
-                            </select>
-                            <button onclick="gerarDocumento()" style="width: 100%; background: var(--accent); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;">Gerar com Claude</button>
-                        </div>
-                        <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-                            <h3>Assinaturas Pendentes</h3>
-                            <div style="margin-top: 16px;">
-                                <div style="padding: 10px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
-                                    <span>Contrato_Silva.pdf</span>
-                                    <span style="color: var(--gold);">Aguardando</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="doc-preview" class="panel" style="margin-top: 20px; background: #fff; color: #333; padding: 40px; border-radius: 8px; display: none; font-family: serif; min-height: 400px; box-shadow: inset 0 0 10px rgba(0,0,0,0.1);">
-                        <!-- Gerado via IA -->
-                    </div>
-                </section>
-
-                <!-- VIEW: DATAJUD SYNC -->
-                <section id="view-datajud" class="view" style="display: none;">
-                    <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
-                        <h2 style="font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 20px;">Busca Avançada Datajud (CNJ)</h2>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 16px; margin-bottom: 24px;">
-                            <input type="text" id="search-adv-nome" placeholder="Nome do Advogado" class="glass-input" style="background: var(--surface2); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff;">
-                            <input type="text" id="search-adv-oab" placeholder="Número da OAB (ex: 12345/SP)" class="glass-input" style="background: var(--surface2); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff;">
-                            <button onclick="searchDatajudManual()" style="background: var(--accent); color: #fff; border: none; padding: 0 24px; border-radius: 8px; font-weight: 600; cursor: pointer;">Pesquisar</button>
-                        </div>
-                        <div id="results-cnj">
-                            <!-- Resultados -->
-                        </div>
-                        <div style="margin-top: 32px;">
-                            <h3 style="font-size: 15px; margin-bottom: 16px;">Monitoramento em Tempo Real</h3>
-                            <div id="sync-log" style="background: #000; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; color: #10b981; height: 200px; overflow-y: auto; border: 1px solid var(--border);">
-                                [SISTEMA] Aguardando início de sincronização...
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- VIEW: CONFIG -->
-                <section id="view-config" class="view" style="display: none;">
-                    <div class="panel" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
-                        <h2 style="margin-bottom: 24px;">Configurações</h2>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                            <div class="form-group">
-                                <label style="display: block; font-size: 12px; color: var(--text3); margin-bottom: 8px;">NOME DO ADVOGADO</label>
-                                <input type="text" id="adv-nome" class="glass-input" style="width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff;">
-                            </div>
-                            <div class="form-group">
-                                <label style="display: block; font-size: 12px; color: var(--text3); margin-bottom: 8px;">OAB (PADRÃO)</label>
-                                <input type="text" id="adv-oab" class="glass-input" style="width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff;">
-                            </div>
-                            <div class="form-group">
-                                <label style="display: block; font-size: 12px; color: var(--text3); margin-bottom: 8px;">PROVEDOR DE IA</label>
-                                <select id="ai-provider" class="glass-input" style="width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff;">
-                                    <option value="gemini">Google Gemini (Flash)</option>
-                                    <option value="openai">OpenAI (GPT-4)</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label style="display: block; font-size: 12px; color: var(--text3); margin-bottom: 8px;">API KEY IA</label>
-                                <input type="password" id="ai-api-key" class="glass-input" style="width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff;">
-                            </div>
-                            <div class="form-group">
-                                <label style="display: block; font-size: 12px; color: var(--text3); margin-bottom: 8px;">DATAJUD API KEY</label>
-                                <input type="password" id="datajud-api-key" class="glass-input" style="width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff;">
-                            </div>
-                            <div class="form-group">
-                                <label style="display: block; font-size: 12px; color: var(--text3); margin-bottom: 8px;">GOOGLE SCRIPT URL</label>
-                                <input type="text" id="sync-gas-url" class="glass-input" style="width: 100%; background: var(--surface2); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff;">
-                            </div>
-                        </div>
-                        <button onclick="saveSettings()" style="margin-top: 24px; background: var(--accent); color: #fff; border: none; padding: 12px 32px; border-radius: 8px; font-weight: 600; cursor: pointer;">Salvar Configurações</button>
-                    </div>
-                </section>
-
-            </div>
-        </main>
+    <div class="sidebar">
+        <h2 style="font-family: 'DM Serif Display'; color: #fff;">Legalflow</h2>
+        <div class="nav-btn active" onclick="showView('dashboard', this)"><i class="fas fa-chart-line"></i> Dashboard</div>
+        <div class="nav-btn" onclick="showView('ia', this)"><i class="fas fa-robot"></i> Assistente IA</div>
+        <div class="nav-btn" onclick="showView('config', this)"><i class="fas fa-cog"></i> Configurações</div>
     </div>
 
-    <div id="toast" style="position: fixed; bottom: 24px; right: 24px; background: var(--surface); border: 1px solid var(--border-bright); padding: 12px 24px; border-radius: 8px; color: #fff; display: none; z-index: 9999; box-shadow: 0 8px 32px rgba(0,0,0,0.5);"></div>
+    <div class="content">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h1 id="page-title" style="font-family: 'DM Serif Display'; font-size: 24px;">Dashboard</h1>
+        </header>
 
-    <script src="app.js"></script>
+        <section id="view-dashboard" class="view active">
+            <div class="panel">
+                <h3>Bem-vindo, Dr. Raphael</h3>
+                <p>O sistema está pronto. Configure sua API Key para começar.</p>
+            </div>
+        </section>
+
+        <section id="view-ia" class="view">
+            <div class="panel" style="height: 500px; display: flex; flex-direction: column;">
+                <div id="chat-messages" style="flex: 1; overflow-y: auto; padding-bottom: 20px;"></div>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="chat-input" placeholder="Pergunte qualquer coisa...">
+                    <button onclick="sendChat()">Enviar</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-config" class="view">
+            <div class="panel">
+                <h3>Configurações</h3>
+                <label>API KEY (Gemini)</label>
+                <input type="password" id="api-key" style="margin-bottom: 20px;">
+                <button onclick="saveSettings()">Salvar</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // LÓGICA DO SISTEMA
+        let db = JSON.parse(localStorage.getItem('legalflow_db')) || { key: "" };
+
+        function showView(id, btn) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('view-' + id).classList.add('active');
+            btn.classList.add('active');
+            document.getElementById('page-title').innerText = id.toUpperCase();
+        }
+
+        async function sendChat() {
+            const input = document.getElementById('chat-input');
+            const msg = input.value;
+            if(!msg) return;
+            const messages = document.getElementById('chat-messages');
+            messages.innerHTML += `<div><b>Você:</b> ${msg}</div>`;
+            input.value = "";
+
+            const key = document.getElementById('api-key').value || db.key;
+            if(!key) { messages.innerHTML += `<div><b style="color:red;">Erro:</b> Configure a API Key!</div>`; return; }
+
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: msg }] }] })
+                });
+                const data = await res.json();
+                const reply = data.candidates[0].content.parts[0].text;
+                messages.innerHTML += `<div><b>IA:</b> ${reply}</div>`;
+            } catch(e) { messages.innerHTML += `<div><b>IA:</b> Erro na conexão.</div>`; }
+        }
+
+        function saveSettings() {
+            db.key = document.getElementById('api-key').value;
+            localStorage.setItem('legalflow_db', JSON.stringify(db));
+            alert("Salvo!");
+        }
+
+        window.onload = () => { document.getElementById('api-key').value = db.key; };
+    </script>
 </body>
 </html>
