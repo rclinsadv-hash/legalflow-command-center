@@ -271,3 +271,230 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexOS | Command Center Jurídico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* DESIGN SYSTEM PREMIUM */
+        :root {
+            --bg: #05050f; --sidebar: #0a0a1a; --card: #11112b;
+            --accent: #8b5cf6; --accent-glow: rgba(139, 92, 246, 0.3);
+            --text: #ffffff; --text-dim: #94a3b8;
+            --success: #10b981; --warning: #f59e0b; --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        .sidebar { width: 260px; background: var(--sidebar); border-right: 1px solid rgba(255,255,255,0.05); padding: 30px 20px; display: flex; flex-direction: column; }
+        .logo { font-size: 28px; font-weight: 800; color: var(--accent); margin-bottom: 5px; }
+        .logo-sub { font-size: 10px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 40px; }
+        .nav-label { font-size: 10px; font-weight: 700; color: #4b5563; text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px; }
+        .nav-item { padding: 12px 16px; border-radius: 12px; display: flex; align-items: center; gap: 12px; color: var(--text-dim); cursor: pointer; transition: 0.3s; margin-bottom: 4px; font-size: 14px; }
+        .nav-item:hover { background: rgba(255,255,255,0.03); color: #fff; }
+        .nav-item.active { background: linear-gradient(90deg, rgba(139, 92, 246, 0.15) 0%, transparent 100%); color: #fff; border-left: 3px solid var(--accent); }
+
+        /* MAIN CONTENT */
+        .main { flex: 1; padding: 30px 50px; overflow-y: auto; background: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.08), transparent 50%); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        
+        /* PANELS & CARDS */
+        .panel { background: var(--card); border-radius: 24px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 30px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px; }
+        .stat-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 24px; }
+        .stat-value { font-size: 32px; font-weight: 800; margin-top: 10px; }
+
+        /* FORMS */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        input, select, textarea { background: #0a0a1a; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 15px; border-radius: 12px; width: 100%; margin-top: 8px; }
+        label { font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; }
+        .btn-lex { background: var(--accent); color: #fff; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .btn-lex:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2); }
+
+        /* VIEWS */
+        .view { display: none; } .view.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* TABLES */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; font-size: 11px; color: var(--text-dim); padding-bottom: 15px; }
+        td { padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 14px; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">LexOS</div>
+        <div class="logo-sub">COMMAND CENTER</div>
+        
+        <div class="nav-label">Principal</div>
+        <div class="nav-item active" onclick="showView('dashboard', this)"><i class="fas fa-home"></i> Dashboard</div>
+        <div class="nav-item" onclick="showView('intimacoes', this)"><i class="fas fa-bell"></i> Intimações</div>
+        
+        <div class="nav-label">Gestão</div>
+        <div class="nav-item" onclick="showView('processos', this)"><i class="fas fa-gavel"></i> Processos</div>
+        <div class="nav-item" onclick="showView('clientes', this)"><i class="fas fa-users"></i> Clientes & CRM</div>
+        
+        <div class="nav-label">Inteligência</div>
+        <div class="nav-item" onclick="showView('ia', this)"><i class="fas fa-robot"></i> Assistente IA</div>
+        <div class="nav-item" onclick="showView('config', this)"><i class="fas fa-cog"></i> Configurações</div>
+    </aside>
+
+    <main class="main">
+        <header class="header">
+            <h1 id="page-title">Dashboard</h1>
+            <button class="btn-lex" onclick="syncAll()"><i class="fas fa-sync"></i> Sincronizar Tudo</button>
+        </header>
+
+        <!-- VIEW DASHBOARD -->
+        <div id="view-dashboard" class="view active">
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-label">Processos</div><div class="stat-value" id="st-proc">0</div></div>
+                <div class="stat-card"><div class="stat-label">Prazos</div><div class="stat-value" id="st-prazos" style="color: var(--danger);">0</div></div>
+                <div class="stat-card"><div class="stat-label">Clientes</div><div class="stat-value" id="st-clientes">0</div></div>
+                <div class="stat-card"><div class="stat-label">Receita</div><div class="stat-value">R$ 0</div></div>
+            </div>
+            <div class="panel">
+                <h3>Bem-vindo, Dr. Raphael</h3>
+                <p style="color: var(--text-dim); margin-top: 10px;">O sistema está conectado e monitorando tribunais.</p>
+            </div>
+        </div>
+
+        <!-- VIEW CLIENTES (CRM) -->
+        <div id="view-clientes" class="view">
+            <div class="panel">
+                <h3>Novo Cliente Inteligente</h3>
+                <div class="form-grid" style="margin-top: 20px;">
+                    <div><label>CPF / CNPJ</label><input type="text" id="cli-cpf" onblur="buscarDadosCPF()" placeholder="000.000.000-00"></div>
+                    <div><label>Nome Completo</label><input type="text" id="cli-nome" placeholder="Nome do Cliente"></div>
+                    <div><label>CEP</label><input type="text" id="cli-cep" onblur="buscarCEP()" placeholder="00000-000"></div>
+                    <div><label>Endereço</label><input type="text" id="cli-rua" placeholder="Rua, Número..."></div>
+                </div>
+                <button class="btn-lex" style="margin-top: 25px;" onclick="salvarCliente()"><i class="fas fa-user-plus"></i> Cadastrar Cliente</button>
+            </div>
+            <div class="panel">
+                <h3>Lista de Clientes</h3>
+                <table id="table-clientes">
+                    <thead><tr><th>Nome</th><th>CPF</th><th>Localidade</th><th>Ações</th></tr></thead>
+                    <tbody id="list-clientes"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VIEW PROCESSOS -->
+        <div id="view-processos" class="view">
+            <div class="panel">
+                <h3>Busca Automática Datajud</h3>
+                <div style="display: flex; gap: 15px; margin-top: 15px;">
+                    <input type="text" id="proc-busca" placeholder="Digite o número do processo (CNJ)">
+                    <button class="btn-lex" onclick="buscarProcessoDatajud()"><i class="fas fa-search"></i> Buscar</button>
+                </div>
+            </div>
+            <div class="panel">
+                <table id="table-processos">
+                    <thead><tr><th>Processo</th><th>Tribunal</th><th>Último Status</th></tr></thead>
+                    <tbody id="list-processos"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VIEW CONFIG -->
+        <div id="view-config" class="view">
+            <div class="panel">
+                <h3>Configurações de API</h3>
+                <div class="form-grid" style="margin-top: 20px;">
+                    <div><label>Gemini API Key</label><input type="password" id="cfg-key"></div>
+                    <div><label>Datajud API Key</label><input type="password" id="cfg-dj"></div>
+                </div>
+                <button class="btn-lex" style="margin-top: 25px;" onclick="saveConfig()">Salvar e Ativar</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let db = JSON.parse(localStorage.getItem('lexos_db')) || { clientes: [], processos: [], config: {} };
+
+        function showView(id, btn) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            document.getElementById('view-' + id).classList.add('active');
+            if(btn) btn.classList.add('active');
+            document.getElementById('page-title').innerText = id.toUpperCase();
+        }
+
+        // --- BUSCA CEP ---
+        async function buscarCEP() {
+            const cep = document.getElementById('cli-cep').value.replace(/\D/g, '');
+            if (cep.length !== 8) return;
+            try {
+                const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await res.json();
+                if (!data.erro) {
+                    document.getElementById('cli-rua').value = `${data.logradouro}, ${data.bairro}, ${data.localidade} - ${data.uf}`;
+                }
+            } catch (e) { console.error("Erro CEP"); }
+        }
+
+        // --- CRM LOGIC ---
+        function salvarCliente() {
+            const nome = document.getElementById('cli-nome').value;
+            const cpf = document.getElementById('cli-cpf').value;
+            const rua = document.getElementById('cli-rua').value;
+            if(!nome) return alert("Nome obrigatório");
+
+            db.clientes.unshift({ id: Date.now(), nome, cpf, rua });
+            localStorage.setItem('lexos_db', JSON.stringify(db));
+            renderClientes();
+            alert("Cliente cadastrado!");
+        }
+
+        function renderClientes() {
+            const list = document.getElementById('list-clientes');
+            list.innerHTML = db.clientes.map(c => `
+                <tr><td>${c.nome}</td><td>${c.cpf}</td><td>${c.rua}</td><td><i class="fas fa-trash" style="color:var(--danger); cursor:pointer;"></i></td></tr>
+            `).join('');
+            document.getElementById('st-clientes').innerText = db.clientes.length;
+        }
+
+        // --- DATAJUD SIMULATION ---
+        async function buscarProcessoDatajud() {
+            const num = document.getElementById('proc-busca').value;
+            if(!num) return;
+            alert("Buscando no Datajud... Aguarde.");
+            
+            // Simulação de retorno Datajud
+            setTimeout(() => {
+                db.processos.unshift({ numero: num, tribunal: "TJSP", status: "Movimentação Recente" });
+                localStorage.setItem('lexos_db', JSON.stringify(db));
+                renderProcessos();
+                document.getElementById('st-proc').innerText = db.processos.length;
+            }, 1500);
+        }
+
+        function renderProcessos() {
+            const list = document.getElementById('list-processos');
+            list.innerHTML = db.processos.map(p => `
+                <tr><td>${p.numero}</td><td>${p.tribunal}</td><td>${p.status}</td></tr>
+            `).join('');
+        }
+
+        function saveConfig() {
+            db.config.key = document.getElementById('cfg-key').value;
+            db.config.dj = document.getElementById('cfg-dj').value;
+            localStorage.setItem('lexos_db', JSON.stringify(db));
+            alert("Configurações Salvas!");
+        }
+
+        window.onload = () => {
+            renderClientes();
+            renderProcessos();
+            if(db.config.key) document.getElementById('cfg-key').value = db.config.key;
+        }
+    </script>
+</body>
+</html>
