@@ -4,109 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legalflow | Central de Comando</title>
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        /* DESIGN PREMIUM GLASSMORFISM */
-        :root {
-            --bg: #06060f; --surface: #0d0d1e; --surface2: #12122a;
-            --border: rgba(139,92,246,0.15); --accent: #7c3aed; --text: #e2e8f0;
-        }
-        body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        .sidebar { width: 260px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; }
-        .nav-btn { padding: 12px; margin: 4px 0; border-radius: 8px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; color: #94a3b8; }
-        .nav-btn.active { background: rgba(124,58,237,0.1); color: #fff; border: 1px solid var(--border); }
-        .content { flex: 1; padding: 30px; overflow-y: auto; }
-        .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
-        .view { display: none; }
-        .view.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        textarea, input { background: var(--surface2); border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 8px; width: 100%; box-sizing: border-box; }
-        button { background: var(--accent); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-    </style>
 </head>
 <body>
-    <div class="sidebar">
-        <h2 style="font-family: 'DM Serif Display'; color: #fff;">Legalflow</h2>
-        <div class="nav-btn active" onclick="showView('dashboard', this)"><i class="fas fa-chart-line"></i> Dashboard</div>
-        <div class="nav-btn" onclick="showView('ia', this)"><i class="fas fa-robot"></i> Assistente IA</div>
-        <div class="nav-btn" onclick="showView('config', this)"><i class="fas fa-cog"></i> Configurações</div>
-    </div>
-
-    <div class="content">
-        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h1 id="page-title" style="font-family: 'DM Serif Display'; font-size: 24px;">Dashboard</h1>
-        </header>
-
-        <section id="view-dashboard" class="view active">
-            <div class="panel">
-                <h3>Bem-vindo, Dr. Raphael</h3>
-                <p>O sistema está pronto. Configure sua API Key para começar.</p>
+    <div class="app-container">
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-text">Legalflow</div>
+                <div class="logo-sub">Command Center</div>
             </div>
-        </section>
+            <nav>
+                <div class="nav-group">PRINCIPAL</div>
+                <div class="nav-btn active" onclick="showView('dashboard', this)"><i class="fas fa-th-large"></i> Dashboard</div>
+                <div class="nav-btn" onclick="showView('intimacoes', this)"><i class="fas fa-bell"></i> Intimações</div>
+                
+                <div class="nav-group">GESTÃO</div>
+                <div class="nav-btn" onclick="showView('processos', this)"><i class="fas fa-gavel"></i> Processos</div>
+                <div class="nav-btn" onclick="showView('clientes', this)"><i class="fas fa-users"></i> Clientes</div>
 
-        <section id="view-ia" class="view">
-            <div class="panel" style="height: 500px; display: flex; flex-direction: column;">
-                <div id="chat-messages" style="flex: 1; overflow-y: auto; padding-bottom: 20px;"></div>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" id="chat-input" placeholder="Pergunte qualquer coisa...">
-                    <button onclick="sendChat()">Enviar</button>
+                <div class="nav-group">FERRAMENTAS</div>
+                <div class="nav-btn" onclick="showView('ia', this)"><i class="fas fa-robot"></i> Assistente IA</div>
+                <div class="nav-btn" onclick="showView('whatsapp', this)"><i class="fas fa-comments"></i> WhatsApp</div>
+                
+                <div class="nav-group">SISTEMA</div>
+                <div class="nav-btn" onclick="showView('config', this)"><i class="fas fa-cog"></i> Configurações</div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1 id="page-title">Dashboard</h1>
+                <button class="btn-primary" onclick="syncDatajud()"><i class="fas fa-sync"></i> Sincronizar</button>
+            </header>
+
+            <div id="view-dashboard" class="view active">
+                <div class="panel">
+                    <h2>Bem-vindo ao Centro de Comando</h2>
+                    <p>O sistema foi restaurado. Configure sua API Key para ativar as automações.</p>
                 </div>
             </div>
-        </section>
 
-        <section id="view-config" class="view">
-            <div class="panel">
-                <h3>Configurações</h3>
-                <label>API KEY (Gemini)</label>
-                <input type="password" id="api-key" style="margin-bottom: 20px;">
-                <button onclick="saveSettings()">Salvar</button>
+            <!-- Outras Views (Intimações, IA, etc) -->
+            <div id="view-ia" class="view">
+                <div class="panel" style="height: 500px; display: flex; flex-direction: column;">
+                    <div id="ia-chat-messages" style="flex: 1; overflow-y: auto;"></div>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <input type="text" id="ia-chat-input" placeholder="Digite sua dúvida jurídica...">
+                        <button onclick="sendChatMessage()">Enviar</button>
+                    </div>
+                </div>
             </div>
-        </section>
+
+            <div id="view-config" class="view">
+                <div class="panel">
+                    <h3>Configurações de API</h3>
+                    <div style="margin-bottom: 15px;">
+                        <label>Provedor de IA</label>
+                        <select id="ai-provider">
+                            <option value="gemini">Google Gemini</option>
+                            <option value="openai">OpenAI</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label>Chave de API (Key)</label>
+                        <input type="password" id="ai-api-key" placeholder="Cole sua chave aqui...">
+                    </div>
+                    <button onclick="saveSettings()">Salvar Configurações</button>
+                </div>
+            </div>
+        </main>
     </div>
-
-    <script>
-        // LÓGICA DO SISTEMA
-        let db = JSON.parse(localStorage.getItem('legalflow_db')) || { key: "" };
-
-        function showView(id, btn) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('view-' + id).classList.add('active');
-            btn.classList.add('active');
-            document.getElementById('page-title').innerText = id.toUpperCase();
-        }
-
-        async function sendChat() {
-            const input = document.getElementById('chat-input');
-            const msg = input.value;
-            if(!msg) return;
-            const messages = document.getElementById('chat-messages');
-            messages.innerHTML += `<div><b>Você:</b> ${msg}</div>`;
-            input.value = "";
-
-            const key = document.getElementById('api-key').value || db.key;
-            if(!key) { messages.innerHTML += `<div><b style="color:red;">Erro:</b> Configure a API Key!</div>`; return; }
-
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: msg }] }] })
-                });
-                const data = await res.json();
-                const reply = data.candidates[0].content.parts[0].text;
-                messages.innerHTML += `<div><b>IA:</b> ${reply}</div>`;
-            } catch(e) { messages.innerHTML += `<div><b>IA:</b> Erro na conexão.</div>`; }
-        }
-
-        function saveSettings() {
-            db.key = document.getElementById('api-key').value;
-            localStorage.setItem('legalflow_db', JSON.stringify(db));
-            alert("Salvo!");
-        }
-
-        window.onload = () => { document.getElementById('api-key').value = db.key; };
-    </script>
+    <div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#333; color:#fff; padding:10px 20px; border-radius:8px;"></div>
+    <script src="app.js"></script>
 </body>
 </html>
