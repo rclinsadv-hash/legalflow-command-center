@@ -52,7 +52,22 @@ Ainda que se cogitasse de qualquer óbice formal ao conhecimento, o que se admit
 
 **3.8.** Em 11/09/2026, o Gerente Regional negou anuência à cessão (Despacho nº 145777/2026, SEI 20726918), comunicando a decisão pelos Ofícios nº 43577/2026 e nº 46467/2026.
 
-[INSERIR VISUAL: LINHA DO TEMPO] 30/10/2020 requerimento do Registro de Licença → 11/12/2020 protocolo SUDEMA → 20/09/2021 Nota PFE valida a declaração de posse → 29/11/2021 cumprimento de exigências e redução de área → **24/05/2022 baixa do CNPJ 39.311.757/0001-31** → **08/07/2022 ANM expede o RL 13/2022** → **18/07/2022 publicação no DOU** → 19/12/2025 pedido de cessão total → 25/08/2026 formulário: todos os requisitos "SIM", único óbice o CNPJ baixado → 11/09/2026 Despacho 145777 nega anuência → [DATA] ciência → [DATA] interposição deste recurso.
+**Linha do tempo**
+
+| Data | Evento | SEI |
+|---|---|---|
+| 30/10/2020 | Requerimento do Registro de Licença (47,89 ha) | 1881146 |
+| 11/12/2020 | Protocolo do licenciamento ambiental na SUDEMA | 2024406 |
+| 20/09/2021 | Nota PFE/ANM: declaração de posse é válida | 3023172 |
+| 29/11/2021 | Cumprimento de exigências e redução da área para 18,54 ha | 3306772 |
+| **24/05/2022** | **Baixa do CNPJ 39.311.757/0001-31 (Empresário Individual)** | 20679960 |
+| **08/07/2022** | **ANM expede o Registro de Licença nº 13/2022** | 4442777 |
+| **18/07/2022** | **Publicação do RL 13/2022 no DOU (validade indeterminada)** | 4537432 |
+| 19/12/2025 | Pedido de cessão total ao CNPJ 63.576.452/0001-36 | 18728345 |
+| 25/08/2026 | Formulário: todos os requisitos "SIM"; único óbice é o CNPJ baixado | 20679477 |
+| 11/09/2026 | Despacho 145777: nega anuência à cessão | 20726918 |
+| [DATA] | Ciência da recorrente (AR) | 20814897 |
+| [DATA] | Interposição deste recurso | – |
 
 ## 4. DO PEDIDO DE EFEITO SUSPENSIVO
 
@@ -62,7 +77,10 @@ O art. 61, parágrafo único, da Lei nº 9.784/1999 autoriza a concessão de efe
 
 Requer-se, por isso, a atribuição de efeito suspensivo, para que nenhum ato decorrente da negativa de anuência seja praticado até o julgamento final deste recurso, com a manutenção do Registro de Licença nº 13/2022 e da recorrente como sua titular.
 
-[INSERIR VISUAL: TABELA CHECKLIST] Requisitos do art. 61, parágrafo único, da Lei nº 9.784/1999: (1) plausibilidade: Cartão CNPJ "213-5 - Empresário (Individual)" + outorga do título após a baixa + todos os requisitos do art. 236 atestados como cumpridos; (2) justo receio de prejuízo de difícil reparação: título preso a inscrição baixada, impossibilidade de faturar, recolher CFEM e renovar licença ambiental.
+| Requisito (art. 61, parágrafo único, Lei nº 9.784/1999) | Como o caso o preenche |
+|---|---|
+| Plausibilidade do direito | Cartão CNPJ "213-5 - Empresário (Individual)"; título outorgado após a baixa; todos os requisitos do art. 236 atestados como cumpridos (SEI 20679477) |
+| Justo receio de prejuízo de difícil ou incerta reparação | Título preso a inscrição baixada: sem nota fiscal, sem recolhimento regular de CFEM, sem base cadastral para a licença ambiental, risco de a atividade ser tratada como irregular |
 
 ## 5. DAS RAZÕES DO RECURSO
 
@@ -76,9 +94,9 @@ A inscrição no CNPJ do empresário individual é exigência cadastral e fiscal
 
 O Superior Tribunal de Justiça é firme nesse sentido:
 
-> "O empresário individual é a própria pessoa física ou natural, respondendo os seus bens pelas obrigações que assumiu, quer civis quer comerciais." (STJ, REsp 1.355.000/SP, Rel. Min. Marco Buzzi, Quarta Turma, j. 20/10/2016, DJe 10/11/2016) [CONFERIR EMENTA]
+> "A empresa individual é mera ficção jurídica que permite à pessoa natural atuar no mercado com vantagens próprias da pessoa jurídica, sem que a titularidade implique distinção patrimonial entre o empresário individual e a pessoa natural titular da firma individual." (STJ, REsp 1.355.000/SP, Rel. Min. Marco Buzzi, Quarta Turma, j. 20/10/2016, DJe 10/11/2016)
 
-> "A empresa individual é mera ficção jurídica que permite à pessoa natural atuar no mercado com vantagens próprias da pessoa jurídica, sem que a titularidade implique distinção patrimonial entre o empresário individual e a pessoa natural titular da firma individual." (STJ, REsp 594.832/RO, Rel. Min. Nancy Andrighi, Terceira Turma, j. 28/06/2005, DJ 01/08/2005) [CONFERIR EMENTA]
+> "O empresário individual é a própria pessoa física ou natural, respondendo os seus bens pelas obrigações que assumiu, quer civis quer comerciais." A firma individual é "mera ficção jurídica, criada para habilitar a pessoa natural a praticar atos de comércio, com vantagens do ponto de vista fiscal". (STJ, REsp 594.832/RO, Rel. Min. Nancy Andrighi, Terceira Turma, j. 28/06/2005) [CONFERIR DATA DE PUBLICAÇÃO]
 
 Daí decorre a conclusão que o formulário ignorou. A capacidade de direito pertence a toda pessoa (art. 1º do Código Civil), e a existência da pessoa natural termina com a morte (art. 6º). A baixa da inscrição fiscal do empresário individual encerra o registro cadastral da atividade, **não a pessoa**. Maria do Socorro de Santana existe, é plenamente capaz e continua titular de seu patrimônio, incluídos os direitos minerários que exerce.
 
@@ -86,7 +104,13 @@ A regra do art. 8º da OS nº 599/2025 pressupõe a extinção da personalidade 
 
 O próprio formulário revela o equívoco. No item sobre poderes de representação, a regra aplicada foi: "Em se tratando o cedente de **pessoa jurídica**, comprovação mediante declaração da Junta Comercial [...] dos poderes de representação do(s) sócio(s) signatário(s)". O cedente não tem sócios. Quem assinou a cessão foi a titular do direito, pessoalmente, com certificado digital e validação biométrica (SEI 18728345).
 
-[INSERIR VISUAL: TABELA COMPARATIVA] Coluna "Hipótese do art. 8º da OS 599/2025 (pessoa jurídica extinta)": sociedade com personalidade própria; baixa = fim da personalidade (art. 51 CC); ninguém pode manifestar vontade por ela; patrimônio segue a liquidação. Coluna "Nosso caso (empresário individual)": natureza jurídica 213-5; a titular é a pessoa natural (art. 966 CC; REsp 1.355.000/SP; REsp 594.832/RO); pessoa viva e capaz (arts. 1º e 6º CC); patrimônio único; a própria titular assinou a cessão.
+| Critério | Hipótese do art. 8º da OS 599/2025 (pessoa jurídica extinta) | Nosso caso (empresário individual) |
+|---|---|---|
+| Natureza do cedente | Sociedade, com personalidade própria (art. 44 do CC) | Natureza 213-5: a titular é a pessoa natural (art. 966 do CC) |
+| Efeito da baixa | Fim da personalidade jurídica (art. 51 do CC) | Encerra só a inscrição fiscal; a pessoa segue viva e capaz (arts. 1º e 6º do CC) |
+| Quem manifesta a vontade | Ninguém mais pode falar pela sociedade extinta | A própria titular assinou a cessão, com certificado digital e biometria |
+| Patrimônio | Segue as regras da liquidação | Patrimônio único da pessoa natural (REsp 1.355.000/SP; REsp 594.832/RO) |
+| Posição da ANM | – | Outorgou o título depois da baixa e o declara "em vigor" |
 
 ### 5.2. A própria ANM reconheceu a titularidade e a capacidade da recorrente depois da baixa do CNPJ
 
@@ -127,7 +151,7 @@ O próprio formulário (SEI 20679477) atesta:
 | Faixa de fronteira, penhora, oneração, sucessão causa mortis, lavra ilegal | N/A | – |
 | **CNPJ do cedente baixado** | **Único óbice apontado, afastado pelos itens 5.1 a 5.3** | 20679960 |
 
-[INSERIR VISUAL: TABELA CHECKLIST] Destacar em verde os requisitos cumpridos e em vermelho o único óbice, com a nota "afastado: cedente é empresário individual (pessoa natural capaz)".
+
 
 ### 5.5. Subsidiariamente: formalismo moderado, dever de orientar e fungibilidade
 

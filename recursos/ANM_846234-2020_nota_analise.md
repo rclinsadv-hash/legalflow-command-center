@@ -24,7 +24,7 @@
 | 1 | **Natureza jurídica do CNPJ 63.576.452/0001-36** (EI ou SLU) | Se for EI, vale a tese de "mesma pessoa / atualização cadastral" (5.5.a). Se for SLU, retire o trecho marcado e mantenha a tese de capacidade do cedente. |
 | 2 | Texto integral da **OS 599/2025** (ANMlegis) | O site não abriu deste ambiente. A peça só cita os arts. 8º e 9º, conforme transcritos nos autos. |
 | 3 | Autoridade superior (SOT) e art. 58 do Regimento (Res. ANM 211/2025) | Estão marcados como [CONFERIR] na peça. |
-| 4 | Ementas dos REsp 1.355.000/SP e 594.832/RO | Estão citadas de memória e marcadas como [CONFERIR EMENTA]. |
+| 4 | Ementas dos REsp 1.355.000/SP e 594.832/RO | Conferidas por pesquisa: as atribuições das frases estavam trocadas e foram corrigidas. Falta só confirmar a data de publicação do REsp 594.832/RO. |
 | 5 | Conteúdo do Requerimento SEI 20632435 (17/08/2026) e da Justificativa 18728341 | São imagens e não saíram na extração do texto. Verifique se não há alegação incompatível com a peça. |
 | 6 | Prazo da nova licença municipal (SEI 18728331) | Define o vencimento do título averbado. |
 | 7 | Situação da **licença ambiental** | A LI 1412/2021 venceu em 21/07/2022. Verifique se houve renovação, porque a extração depende dela (item III do RL). |
