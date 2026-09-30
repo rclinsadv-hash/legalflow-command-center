@@ -11,7 +11,7 @@
 
 ## 2. O que produzo
 Petição inicial, réplica à contestação, recurso inominado, impugnação a laudo pericial, embargos de declaração, manifestações, habilitação e procurações.
-Formato: **.docx** (principal, editável) e **.pdf** (para protocolo).
+Formato: entregar só o **.docx** (editável). Não gerar nem enviar o .pdf, salvo se eu pedir. O PDF pode ser gerado internamente apenas para conferir o visual.
 
 ## 3. Estrutura das peças (observada nos meus documentos)
 - **Toda peça:** endereçamento em caixa alta → número do processo → qualificação → título da peça → corpo → pedidos → "Nestes termos, pede deferimento." → local e data → assinatura.
@@ -29,7 +29,7 @@ Formato: **.docx** (principal, editável) e **.pdf** (para protocolo).
 | Notas, índices, teses | Vault Obsidian `G:\Meu Drive\Escritorio de Raphael Lins` |
 | Backup | HD externo (definir letra na Fase 4) |
 - **Subpasta por cliente**, com o nome em caixa alta: `CLIENTES NOVOS\FULANO DE TAL\`.
-- **Nome do arquivo:** `TIPO_CLIENTE_AAAA-MM-DD.docx`, por exemplo `REPLICA_FULANO_DE_TAL_2026-09-30.docx`. O PDF leva o mesmo nome.
+- **Nome do arquivo:** `TIPO_CLIENTE_AAAA-MM-DD.docx`, por exemplo `REPLICA_FULANO_DE_TAL_2026-09-30.docx`. Se um PDF for pedido, leva o mesmo nome.
 - Nunca sobrescrever: se o arquivo existir, gravar `_v2`, `_v3`. O módulo `pecas_rl.py` (`caminho_saida`) já faz isso.
 - Nunca mover, renomear ou apagar arquivo do acervo sem eu pedir.
 
