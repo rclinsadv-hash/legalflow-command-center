@@ -219,13 +219,26 @@ class Peca:
         self._escrever(p, texto)
         return p
 
-    def citacao(self, texto: str):
-        """Citação/ementa: recuo de 4 cm, 10 pt, entrelinha simples."""
+    def citacao(self, texto: str, italico: bool = False):
+        """Citação/ementa: recuo de 4 cm, 10 pt, entrelinha simples (itálico opcional)."""
         p = self.doc.add_paragraph()
         p.paragraph_format.left_indent = RECUO_CITACAO
         p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.SINGLE
-        self._escrever(p, texto, tamanho=CITACAO_PT)
+        self._escrever(p, texto, tamanho=CITACAO_PT, italico=True if italico else None)
         return p
+
+    def figura(self, caminho: str, largura_cm: float = 15.0, legenda: str | None = None):
+        """Insere imagem (print de documento) centralizada, com legenda em negrito, 10 pt, acima."""
+        if legenda:
+            lg = self.doc.add_paragraph()
+            lg.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            lg.paragraph_format.keep_with_next = True
+            lg.paragraph_format.line_spacing_rule = WD_LINE_SPACING.SINGLE
+            self._escrever(lg, legenda, tamanho=10, negrito=True)
+        im = self.doc.add_paragraph()
+        im.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        im.add_run().add_picture(caminho, width=Cm(largura_cm))
+        return im
 
     def alerta(self, texto: str):
         """Destaque em vermelho (contradição, ponto crítico). Use com parcimônia."""
