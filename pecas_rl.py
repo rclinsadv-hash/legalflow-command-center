@@ -21,11 +21,11 @@ passar `modelo=` com um .docx do escritório.
 """
 from __future__ import annotations
 
-import copy
 import os
 import re
 import shutil
 import subprocess
+from datetime import date
 
 from docx import Document
 from docx.enum.table import WD_TABLE_ALIGNMENT
@@ -92,6 +92,34 @@ def _bordas(tabela, hexa="BFBFBF"):
         el.set(qn("w:color"), hexa)
         bordas.append(el)
     tbl_pr.append(bordas)
+
+
+PASTA_CLIENTES_NOVOS = r"G:\Meu Drive\PROCESSOS DE RL ADVOCACIA\CLIENTES NOVOS"
+
+
+def _limpo(texto: str) -> str:
+    """Tira caracteres proibidos em nomes do Windows e espaços sobrando."""
+    return re.sub(r"\s+", " ", re.sub(r'[\\/:*?"<>|]', "", texto)).strip()
+
+
+def caminho_saida(cliente: str, tipo: str, base: str = PASTA_CLIENTES_NOVOS,
+                  data: str | None = None, ext: str = "docx") -> str:
+    """Devolve o caminho padrão: <base>\\NOME DO CLIENTE\\TIPO_NOME_DO_CLIENTE_AAAA-MM-DD.ext
+
+    Cria a subpasta do cliente (caixa alta). Se o arquivo já existir, devolve _v2, _v3...
+    Nunca devolve um caminho que sobrescreva arquivo existente.
+    """
+    nome = _limpo(cliente).upper()
+    if not nome:
+        raise ValueError("Informe o nome do cliente.")
+    pasta = os.path.join(base, nome)
+    os.makedirs(pasta, exist_ok=True)
+    stem = f"{_limpo(tipo).upper().replace(' ', '_')}_{nome.replace(' ', '_')}_{data or date.today().isoformat()}"
+    caminho, n = os.path.join(pasta, f"{stem}.{ext}"), 1
+    while os.path.exists(caminho):
+        n += 1
+        caminho = os.path.join(pasta, f"{stem}_v{n}.{ext}")
+    return caminho
 
 
 class Peca:
