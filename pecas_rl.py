@@ -241,6 +241,7 @@ class Peca:
             p.paragraph_format.left_indent = Cm(1.25)
             p.paragraph_format.first_line_indent = Cm(-0.75)
             self._escrever(p, f"{marcador} {item}")
+            p.paragraph_format.keep_with_next = i == len(itens) - 1
         return self.doc
 
     def tabela(self, cabecalho: list[str], linhas: list[list[str]], larguras_cm: list[float] | None = None):
@@ -254,6 +255,7 @@ class Peca:
             par = cel.paragraphs[0]
             par.alignment = WD_ALIGN_PARAGRAPH.CENTER
             par.paragraph_format.line_spacing = 1.0
+            par.paragraph_format.space_before = par.paragraph_format.space_after = Pt(3)
             self._escrever(par, titulo, tamanho=TABELA_PT, negrito=True, cor="FFFFFF")
         for n, linha in enumerate(linhas):
             cels = tabela.add_row().cells
@@ -263,6 +265,7 @@ class Peca:
                 par = cels[i].paragraphs[0]
                 par.alignment = WD_ALIGN_PARAGRAPH.LEFT
                 par.paragraph_format.line_spacing = 1.0
+                par.paragraph_format.space_before = par.paragraph_format.space_after = Pt(3)
                 self._escrever(par, str(valor), tamanho=TABELA_PT)
         if larguras_cm:
             for linha in tabela.rows:
@@ -274,6 +277,9 @@ class Peca:
     def fecho(self, local: str, data: str, formula: str = "Nestes termos,\nPede deferimento."):
         """Fórmula de encerramento, local/data e assinatura do advogado."""
         p = self.doc.add_paragraph()
+        p.alignment = WD_ALIGN_PARAGRAPH.LEFT  # justificado + quebra de linha estica a 1ª linha ("Nestes      termos,")
+        p.paragraph_format.keep_with_next = True  # o bloco final (fórmula, data, nome, OAB) nunca se separa
+        p.paragraph_format.keep_together = True
         p.paragraph_format.first_line_indent = RECUO_PRIMEIRA_LINHA
         for i, linha in enumerate(formula.split("\n")):
             if i:
@@ -281,6 +287,7 @@ class Peca:
             self._escrever(p, linha)
         d = self.doc.add_paragraph()
         d.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        d.paragraph_format.keep_with_next = True
         self._escrever(d, f"{local}, {data}.")
         a = self.doc.add_paragraph()
         a.alignment = WD_ALIGN_PARAGRAPH.CENTER
