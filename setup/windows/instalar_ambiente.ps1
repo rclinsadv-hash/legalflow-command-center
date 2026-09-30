@@ -1,4 +1,4 @@
-<#
+﻿<#
   Instala e prepara o ambiente Python + Obsidian no Windows.
   Uso (PowerShell, sem precisar de administrador na maioria dos casos):
     powershell -ExecutionPolicy Bypass -File .\instalar_ambiente.ps1 -Vault "G:\Meu Drive\Escritorio de Raphael Lins" -Trabalho "G:\Meu Drive\PROCESSOS DE RL ADVOCACIA"

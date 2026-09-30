@@ -1,4 +1,4 @@
-<#
+﻿<#
   Backup de arquivos importantes. NUNCA apaga nada no destino (só copia o que é novo ou mais recente).
   Uso:  powershell -ExecutionPolicy Bypass -File .\backup.ps1 -Destino "E:\Backup RL"
         powershell -ExecutionPolicy Bypass -File .\backup.ps1 -Destino "E:\Backup RL" -Agendar     (cria tarefa semanal, domingo 20h)

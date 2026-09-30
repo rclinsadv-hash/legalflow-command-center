@@ -32,6 +32,11 @@ TROCAS = [
 
 
 def main():
+    # Console do Windows costuma ser cp1252 e não imprime emoji: nunca deixar a exibição derrubar o script.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
     if len(sys.argv) < 2:
         sys.exit(__doc__)
     caminho, aplicar = sys.argv[1], "--aplicar" in sys.argv[2:]

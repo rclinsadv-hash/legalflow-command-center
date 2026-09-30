@@ -302,15 +302,30 @@ class Peca:
 
 
 def docx_para_pdf(caminho_docx: str, pasta_saida: str | None = None) -> str:
-    """Converte .docx em .pdf com o LibreOffice (precisa estar instalado). Mantém o layout do Word."""
-    exe = shutil.which("soffice") or shutil.which("libreoffice")
-    if not exe:
-        raise RuntimeError("LibreOffice não encontrado. Instale-o (winget install TheDocumentFoundation.LibreOffice) "
-                           "ou exporte o PDF pelo Word: Arquivo > Salvar como > PDF.")
-    pasta = pasta_saida or os.path.dirname(os.path.abspath(caminho_docx))
-    subprocess.run([exe, "--headless", "--convert-to", "pdf", "--outdir", pasta, caminho_docx],
-                   check=True, capture_output=True, timeout=180)
+    """Converte .docx em .pdf. Usa o LibreOffice se existir; no Windows, cai para o Microsoft Word."""
+    caminho_docx = os.path.abspath(caminho_docx)
+    pasta = os.path.abspath(pasta_saida or os.path.dirname(caminho_docx))
     pdf = os.path.join(pasta, os.path.splitext(os.path.basename(caminho_docx))[0] + ".pdf")
+    exe = shutil.which("soffice") or shutil.which("libreoffice")
+    if not exe and os.name == "nt":
+        for candidato in (r"C:\Program Files\LibreOffice\program\soffice.exe",
+                          r"C:\Program Files (x86)\LibreOffice\program\soffice.exe"):
+            if os.path.exists(candidato):
+                exe = candidato
+                break
+    if exe:
+        subprocess.run([exe, "--headless", "--convert-to", "pdf", "--outdir", pasta, caminho_docx],
+                       check=True, capture_output=True, timeout=180)
+    elif os.name == "nt":
+        # Word via COM (precisa do Microsoft Word instalado). Caminhos vão por variável de ambiente para evitar problemas de aspas.
+        script = ("$w = New-Object -ComObject Word.Application; $w.Visible = $false; "
+                  "try { $d = $w.Documents.Open($env:PECA_DOCX); $d.ExportAsFixedFormat($env:PECA_PDF, 17); $d.Close($false) } "
+                  "finally { $w.Quit() }")
+        subprocess.run(["powershell", "-NoProfile", "-Command", script], check=True, capture_output=True, timeout=180,
+                       env={**os.environ, "PECA_DOCX": caminho_docx, "PECA_PDF": pdf})
+    else:
+        raise RuntimeError("Nem LibreOffice nem Word encontrados. Instale o LibreOffice ou exporte o PDF pelo Word: "
+                           "Arquivo > Salvar como > PDF.")
     if not os.path.exists(pdf):
         raise RuntimeError("A conversão terminou sem gerar o PDF.")
     return pdf
