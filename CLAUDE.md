@@ -72,4 +72,5 @@ Formato: **.docx** (principal, editável) e **.pdf** (para protocolo).
 
 ## 9. Ferramentas e skills
 - `pecas_rl.py`: gera peças no padrão (docx, pdf).
+- `obsidian_api.py`: lê e lista notas do vault pela Local REST API. A chave fica só na variável de ambiente `OBSIDIAN_API_KEY`: nunca pedir, mostrar nem gravar a chave.
 - Skills do escritório: `replica-fraude-consignado`, `inicial-fraude-consignado-jec`, `recurso-inominado-consignado`, `dr-raphael-lins-tenente-contencioso`, `humanizer-br`, entre outras.
