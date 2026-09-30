@@ -16,3 +16,14 @@ powershell -ExecutionPolicy Bypass -File .\instalar_ambiente.ps1 `
 5. Abra o Obsidian, desative o Modo restrito e ative **Dataview** e **Local REST API**.
 
 O script pula tudo o que já existir. Ele **não** foi executado em Windows por mim: testei apenas a lógica dos passos de Python neste ambiente Linux.
+
+## Fase 4: automação (não testada em Windows)
+```powershell
+# Abrir o Obsidian no vault ao ligar o computador
+powershell -ExecutionPolicy Bypass -File .\instalar_inicializacao.ps1 -Vault "G:\Meu Drive\Escritorio de Raphael Lins"
+
+# Backup (só copia, nunca apaga no destino). Rode uma vez à mão e confira; depois agende com -Agendar
+powershell -ExecutionPolicy Bypass -File .\backup.ps1 -Destino "E:\Backup RL"
+powershell -ExecutionPolicy Bypass -File .\backup.ps1 -Destino "E:\Backup RL" -Agendar
+```
+O backup recusa destino no Google Drive (G:) e, no disco C:, exige `-ConfirmoDiscoInterno`, exceto dentro do OneDrive.
